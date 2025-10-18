@@ -1,0 +1,92 @@
+[
+  {
+    "style": "Indian Bridal Makeup",
+    "skinType": "Oily",
+    "name": "Fit Me Matte + Poreless Foundation",
+    "type": "Foundation",
+    "brand": "Maybelline",
+    "shade": "Warm Nude",
+    "link": "https://www.maybelline.co.in"
+  },
+  {
+    "style": "Indian Bridal Makeup",
+    "skinType": "Dry",
+    "name": "Luminous Silk Foundation",
+    "type": "Foundation",
+    "brand": "Giorgio Armani",
+    "shade": "Light Beige",
+    "link": "https://www.giorgioarmanibeauty.in"
+  },
+  {
+    "style": "Bridal Makeup",
+    "skinType": "Oily",
+    "name": "Double Wear Stay-in-Place Foundation",
+    "type": "Foundation",
+    "brand": "Estée Lauder",
+    "shade": "Honey Bronze",
+    "link": "https://www.esteelauder.in"
+  },
+  {
+    "style": "Bridal Makeup",
+    "skinType": "Dry",
+    "name": "Ultra HD Invisible Cover Foundation",
+    "type": "Foundation",
+    "brand": "Make Up For Ever",
+    "shade": "Y245 Soft Sand",
+    "link": "https://www.makeupforever.com"
+  },
+  {
+    "style": "Glam Makeup",
+    "skinType": "Oily",
+    "name": "Soft Matte Complete Concealer",
+    "type": "Concealer",
+    "brand": "NARS",
+    "shade": "Medium Custard",
+    "link": "https://www.narscosmetics.com"
+  },
+  {
+    "style": "Glam Makeup",
+    "skinType": "Dry",
+    "name": "Radiant Creamy Concealer",
+    "type": "Concealer",
+    "brand": "NARS",
+    "shade": "Vanilla",
+    "link": "https://www.narscosmetics.com"
+  },
+  {
+    "style": "Natural Makeup",
+    "skinType": "Oily",
+    "name": "Oil-Free Tinted Moisturizer",
+    "type": "Moisturizer",
+    "brand": "Laura Mercier",
+    "shade": "Natural",
+    "link": "https://www.lauramercier.com"
+  },
+  {
+    "style": "Natural Makeup",
+    "skinType": "Dry",
+    "name": "Hydrating Tinted Moisturizer",
+    "type": "Moisturizer",
+    "brand": "Laura Mercier",
+    "shade": "Nude",
+    "link": "https://www.lauramercier.com"
+  },
+  {
+    "style": "Party Makeup",
+    "skinType": "Oily",
+    "name": "Stay Matte Liquid Lip Colour",
+    "type": "Lipstick",
+    "brand": "Rimmel London",
+    "shade": "Plum This Show",
+    "link": "https://www.rimmellondon.com"
+  },
+  {
+    "style": "Party Makeup",
+    "skinType": "Dry",
+    "name": "Moisture Renew Lipstick",
+    "type": "Lipstick",
+    "brand": "Rimmel London",
+    "shade": "Cherry Bliss",
+    "link": "https://www.rimmellondon.com"
+  }
+]

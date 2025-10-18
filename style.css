@@ -1,0 +1,91 @@
+body {
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #ffe5ec, #f9d6ea, #fce1f2);
+  margin: 0;
+  padding: 30px;
+}
+
+.container {
+  max-width: 600px;
+  margin: auto;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+  color: #d16ba5;
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-top: 20px;
+  font-weight: bold;
+  color: #555;
+}
+
+select,
+input[type="file"],
+button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+button {
+  background-color: #d16ba5;
+  color: white;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background-color: #b24a83;
+}
+
+.image-preview {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.image-preview img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+#result {
+  margin-top: 20px;
+  font-size: 1.2em;
+  text-align: center;
+  color: #333;
+}
+
+#productsSection {
+  margin-top: 30px;
+}
+
+#productsList li {
+  background: #ffe6f2;
+  padding: 10px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+}
+
+#productsList a {
+  color: #d16ba5;
+  text-decoration: none;
+}
+
+#productsList a:hover {
+  text-decoration: underline;
+}

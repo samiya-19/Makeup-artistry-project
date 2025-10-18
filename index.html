@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Makeup Style Predictor 💄</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
+</head>
+
+<body>
+  <div class="container">
+    <h1>💋 Makeup Style Predictor</h1>
+
+    <!-- Model Selector -->
+    <label for="modelSelect">Choose Model:</label>
+    <select id="modelSelect">
+      <option value="model/model.json">Old Makeup Detector (Binary)</option>
+      <option value="model_new/model.json" selected>New Makeup Classifier (Multi-class)</option>
+    </select>
+
+    <!-- Image Upload -->
+    <input type="file" id="imageUpload" accept="image/*" />
+
+    <!-- Image Preview -->
+    <div class="image-preview">
+      <img id="preview" alt="Preview" />
+    </div>
+
+    <!-- Predict Button -->
+    <button id="predictBtn">Predict Style</button>
+
+    <!-- Prediction Result -->
+    <p id="result">Prediction will appear here...</p>
+
+    <!-- Recommended Products -->
+    <div id="productsSection" style="display: none;">
+      <h2>Recommended Products</h2>
+      <ul id="productsList"></ul>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
+
+
+
+

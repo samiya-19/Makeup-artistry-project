@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - GlamMate</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+  <style>
+    body {
+      background: linear-gradient(135deg, #f8a8c0, #f7c1cc);
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .card {
+      display: flex;
+      background: #fff0f5;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      overflow: hidden;
+      max-width: 900px;
+      width: 100%;
+    }
+
+    .card img {
+      width: 50%;
+      object-fit: cover;
+    }
+
+    .form-container {
+      width: 50%;
+      padding: 3rem;
+      background: #ffe4ec;
+    }
+
+    .form-container h2 {
+      color: #880e4f;
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 12px 40px 12px 10px;
+      border: none;
+      border-bottom: 2px solid #e48fb1;
+      background: transparent;
+      outline: none;
+      color: #5a002b;
+      font-size: 1rem;
+    }
+
+    .input-group i {
+      position: absolute;
+      right: 10px;
+      top: 12px;
+      color: #c2185b;
+    }
+
+    .btn {
+      width: 100%;
+      background: linear-gradient(to right, #f06292, #ec407a);
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(236, 64, 122, 0.4);
+      transition: transform 0.2s;
+    }
+
+    .btn:hover {
+      transform: scale(1.03);
+      background: linear-gradient(to right, #ec407a, #d81b60);
+    }
+
+    .text {
+      text-align: center;
+      margin-top: 1rem;
+      color: #7b1f47;
+    }
+
+    .text a {
+      color: #d81b60;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .text a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .card {
+        flex-direction: column;
+      }
+
+      .card img {
+        width: 100%;
+        height: 250px;
+      }
+
+      .form-container {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <!-- Left side Image -->
+    <img src="images/Make-up collection.jpeg" alt="Makeup visuals">
+
+    <!-- Right side Form -->
+    <div class="form-container">
+      <h2>Welcome Back 💄</h2>
+
+      <div class="input-group">
+        <input type="email" id="loginEmail" placeholder="Email" required />
+        <i class="fas fa-envelope"></i>
+      </div>
+
+      <div class="input-group">
+        <input type="password" id="loginPassword" placeholder="Password" required />
+        <i class="fas fa-lock"></i>
+      </div>
+
+      <button class="btn" id="loginBtn">Login</button>
+
+      <p class="text">
+        Don’t have an account? <a href="signup.html">Sign Up</a>
+      </p>
+    </div>
+  </div>
+
+  <script type="module">
+    import { auth } from './firebase.js';
+    import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+    document.getElementById('loginBtn').addEventListener('click', async () => {
+      const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPassword').value.trim();
+
+      if (!email || !password) {
+        alert('Please fill in both fields.');
+        return;
+      }
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        alert('Login successful!');
+        window.location.href = 'home.html';
+      } catch (error) {
+        alert(error.message);
+      }
+    });
+  </script>
+</body>
+</html>
+

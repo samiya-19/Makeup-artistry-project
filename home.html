@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlamMate - Smart Makeup Assistant</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        :root {
+            --light-bg: #fdfafb;
+            --dark-text: #880e4f;
+            --primary-pink: #f06292; 
+            --glass-bg: rgba(255, 204, 204, 0.5);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--dark-text);
+            min-height: 100vh;
+            transition: background-color 0.3s;
+        }
+
+        .home-text {
+            color: var(--dark-text);
+        }
+
+        /* Navigation button underline hover */
+        .nav-btn {
+            position: relative;
+            padding: 8px 16px;
+            overflow: hidden;
+            transition: color 0.3s;
+        }
+        .nav-btn::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(to right, #ffb3c8, #f06292);
+            transition: width 0.3s ease-out, left 0.3s ease-out;
+        }
+        /* Keep nav-btn:hover::after for visual consistency */
+        .nav-btn:hover::after {
+            width: 100%;
+            left: 0;
+        }
+
+        /* Styling for the mega menu's sub-links */
+        .mega-menu-link {
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: background-color 0.15s ease-in-out;
+            color: #4a5568; /* Tailwind gray-700 for sub-links */
+        }
+        .mega-menu-link:hover {
+            background-color: #ffe4e6; /* light pink hover */
+            color: var(--dark-text);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="min-h-screen">
+
+        <header class="flex justify-between items-center px-8 py-4 border-b border-pink-200 shadow-md bg-white sticky top-0 z-40">
+            <h1 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-red-600">
+                GlamMate
+            </h1>
+
+            <nav class="flex space-x-4 lg:space-x-8 text-lg font-medium home-text">
+                <a href="index.html" class="nav-btn">Home</a>
+                <a href="analyzer.html" class="nav-btn">AI Analyzer</a>
+                <a href="#" class="nav-btn">Artists</a>
+                
+                <div class="relative" id="products-menu-container">
+                    <a href="#" class="nav-btn" id="products-link">Products</a> 
+
+                    <div id="mega-menu" class="absolute left-1/2 -translate-x-1/2 mt-0 top-full hidden w-[1200px] z-50 p-6 rounded-lg shadow-2xl bg-white border border-pink-100 transition-opacity duration-300">
+                        <div class="flex">
+                            
+                            <div class="w-1/6 pr-6 border-r border-pink-40">
+                                <h3 class="font-bold text-xl mb-3 text-pink-700 border-b border-pink-150 pb-1">Face</h3>
+                                <ul class="space-y-1 text-sm">
+                                    <li><a href="#" class="mega-menu-link block">Face Primer</a></li>
+                                    <li><a href="#" class="mega-menu-link block">Concealer</a></li>
+                                    <li><a href="#" class="mega-menu-link block">Foundation</a></li>
+                                    <li><a href="#" class="mega-menu-link block">Compact</a></li>
+                                    <li><a href="#" class="mega-menu-link block">Contour</a></li>
+                                    <li><a href="#" class="mega-menu-link block">Loose Powder</a></li>
+                                    <li><a href="#" class="mega-menu-link block">Tinted Moisturizer</a></li>
+                                    <li><a href="#" class="mega-menu-link block">Blush</a></li>
+                                    <li><a href="#" class="mega-menu-link block">Bronzer</a></li>
+                                    <li><a href="#" class="mega-menu-link block">BB & CC Cream</a></li>
+                                    <li><a href="#" class="mega-menu-link block">Highlighters</a></li>
+                                    <li><a href="#" class="mega-menu-link block">Setting Spray</a></li>
+                                    <li><a href="#" class="mega-menu-link block">Makeup Remover</a></li>
+                                    <li><a href="#" class="mega-menu-link block">Sindoor</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="w-1/6 px-6 border-r border-pink-50">
+                                <h3 class="font-bold text-xl mb-3 text-pink-700 border-b border-pink-200 pb-1">Eyes</h3>
+                                <ul class="space-y-1 text-sm mb-6">
+                                    <li><a href="#" class="mega-menu-link block">Kajal</a></li>
+                                    <li><a href="#" class="mega-menu-link block">Eyeliner</a></li>
+                                    <li><a href="#" class="mega-menu-link block">Mascara</a></li>
+                                    <li><a href="#" class="mega-menu-link block">Eye Shadow</a></li>
+                                    <li><a href="#" class="mega-menu-link block">Eye Brow Enhancers</a></li>
+                                    <li><a href="#" class="mega-menu-link block">Eye Primer</a></li>
+                                    <li><a href="#" class="mega-menu-link block">False Eyelashes</a></li>
+                                    <li><a href="#" class="mega-menu-link block">Eye Makeup Remover</a></li>
+                                    <li><a href="#" class="mega-menu-link block">Under Eye Concealer</a></li>
+                                    <li><a href="#" class="mega-menu-link block">Contact Lenses</a></li>
+                                </ul>
+                                <h3 class="font-bold text-xl mb-3 text-pink-700 border-b border-pink-200 pb-1">Makeup Kits & Combos</h3>
+                                <ul class="space-y-1 text-sm">
+                                    <li><a href="#" class="mega-menu-link block">Makeup Kits</a></li>
+                                    <li><a href="#" class="mega-menu-link block">Makeup Combos</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="w-1/6 px-6 border-r border-pink-50">
+                                <h3 class="font-bold text-xl mb-3 text-pink-700 border-b border-pink-200 pb-1">Lips</h3>
+                                <ul class="space-y-1 text-sm mb-6">
+                                    <li><a href="#" class="mega-menu-link block">Lipstick</a></li>
+                                    <li><a href="#" class="mega-menu-link block">Liquid Lipstick</a></li>
+                                    <li><a href="#" class="mega-menu-link block">Lip Crayon</a></li>
+                                    <li><a href="#" class="mega-menu-link block">Lip Gloss</a></li>
+                                    <li><a href="#" class="mega-menu-link block">Lip Liner</a></li>
+                                    <li><a href="#" class="mega-menu-link block">Lip Plumper</a></li>
+                                    <li><a href="#" class="mega-menu-link block">Lip Tint</a></li>
+                                </ul>
+                                <h3 class="font-bold text-xl mb-3 text-pink-700 border-b border-pink-200 pb-1">Nails</h3>
+                                <ul class="space-y-1 text-sm">
+                                    <li><a href="#" class="mega-menu-link block">Nail Polish</a></li>
+                                    <li><a href="#" class="mega-menu-link block">Nail Art Kits</a></li>
+                                    <li><a href="#" class="mega-menu-link block">Nail Care</a></li>
+                                    <li><a href="#" class="mega-menu-link block">Nail Polish Remover</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="w-1/6 px-6 border-r border-pink-50">
+                                <h3 class="font-bold text-xl mb-3 text-pink-700 border-b border-pink-200 pb-1">Tools & Brushes</h3>
+                                <ul class="space-y-1 text-sm mb-6">
+                                    <li><a href="#" class="mega-menu-link block">Face Brush</a></li>
+                                    <li><a href="#" class="mega-menu-link block">Eye Brush</a></li>
+                                    <li><a href="#" class="mega-menu-link block">Lip Brush</a></li>
+                                    <li><a href="#" class="mega-menu-link block">Brush Sets</a></li>
+                                    <li><a href="#" class="mega-menu-link block">Brush Cleaners</a></li>
+                                    <li><a href="#" class="mega-menu-link block">Sponges & Applicators</a></li>
+                                    <li><a href="#" class="mega-menu-link block">Eyelash Curlers</a></li>
+                                    <li><a href="#" class="mega-menu-link block">Tweezers</a></li>
+                                    <li><a href="#" class="mega-menu-link block">Sharpeners</a></li>
+                                    <li><a href="#" class="mega-menu-link block">Mirrors</a></li>
+                                    <li><a href="#" class="mega-menu-link block">Makeup Pouches</a></li>
+                                </ul>
+                                <h3 class="font-bold text-xl mb-3 text-pink-700 border-b border-pink-200 pb-1">Multi-Functional Makeup Palettes</h3>
+                            </div>
+
+                            <div class="w-1/6 px-6 border-r border-pink-50">
+                                <h3 class="font-bold text-xl mb-3 text-pink-700 border-b border-pink-200 pb-1">Top Brands</h3>
+                                <ul class="space-y-1 text-sm">
+                                    <li><a href="#" class="mega-menu-link block">Kay Beauty</a></li>
+                                    <li><a href="#" class="mega-menu-link block">Huda Beauty</a></li>
+                                    <li><a href="#" class="mega-menu-link block">Charlotte Tilbury</a></li>
+                                    <li><a href="#" class="mega-menu-link block">M.A.C</a></li>
+                                    <li><a href="#" class="mega-menu-link block">Maybelline New York</a></li>
+                                    <li><a href="#" class="mega-menu-link block">L'Oréal Paris</a></li>
+                                    <li><a href="#" class="mega-menu-link block">Lakme</a></li>
+                                    <li><a href="#" class="mega-menu-link block">Nykaa Cosmetics</a></li>
+                                    <li><a href="#" class="mega-menu-link block">Nyx Pro.Makeup</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="w-1/6 pl-6">
+                                <h3 class="font-bold text-xl mb-3 text-pink-700 border-b border-pink-200 pb-1">Quick Links</h3>
+                                <ul class="space-y-1 text-sm mb-6">
+                                    <li><a href="#" class="mega-menu-link block">Combos @ Nykaa</a></li>
+                                    <li><a href="#" class="mega-menu-link block">New Launches</a></li>
+                                    <li><a href="#" class="mega-menu-link block">Gifts @ Nykaa</a></li>
+                                    <li><a href="#" class="mega-menu-link block">The Gift Store</a></li>
+                                </ul>
+                                <h3 class="font-bold text-xl mb-3 text-pink-700 border-b border-pink-200 pb-1">Trending Searches</h3>
+                                <ul class="space-y-1 text-sm">
+                                    <li><a href="#" class="mega-menu-link block font-semibold text-pink-800">Nude Lipstick</a></li>
+                                    <li><a href="#" class="mega-menu-link block font-semibold text-pink-800">Matte Lipstick</a></li>
+                                    <li><a href="#" class="mega-menu-link block font-semibold text-pink-800">Red Lipstick</a></li>
+                                    <li><a href="#" class="mega-menu-link block font-semibold text-pink-800">Pink Lipstick</a></li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                    </div>
+                <a href="#" class="nav-btn">Tutorials</a>
+                <a href="login.html" class="nav-btn">Login</a>
+
+            </nav>
+
+            <a href="signup.html" class="bg-pink-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-pink-700 transition shadow-lg">
+                Sign In
+            </a>
+        </header>
+
+        <main class="text-center pt-16 pb-20 px-4 home-text" style="background: linear-gradient(180deg, #fefafb 0%, #ffe4e6 100%);">
+            <h2 class="text-6xl font-extrabold mb-6 max-w-5xl mx-auto leading-tight">
+                <span class="home-text">Your Smart</span> 
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-red-800">
+                    Makeup Artist Booking & Beauty Assistant
+                </span>
+            </h2>
+            <p class="text-xl text-pink-900 mb-12 max-w-3xl mx-auto opacity-80">
+                Discover your perfect makeup style with AI-powered analysis, find top-rated makeup artists, and get personalized beauty recommendations.
+            </p>
+            <div class="flex justify-center space-x-6">
+                <a href="analyzer.html" class="px-8 py-3 rounded-full text-lg font-semibold border-2 border-pink-400 text-pink-700 hover:bg-pink-100 transition shadow-lg">
+                    Try AI Makeup Detector
+                </a>
+                <button class="px-8 py-3 rounded-full text-lg font-semibold bg-gradient-to-r from-pink-500 to-red-600 text-white hover:shadow-xl transition shadow-pink-300/50">
+                    Book Artist Now
+                </button>
+            </div>
+
+            <div class="mt-20 flex justify-center">
+                <img src="https://placehold.co/1000x500/fff0f5/880e4f?text=Elegant+GlamMate+Visual" 
+                    alt="Elegant beauty visual placeholder" 
+                    class="rounded-xl shadow-2xl transition duration-500 hover:scale-[1.01] w-full max-w-4xl"
+                    style="filter: drop-shadow(0 0 20px rgba(255, 192, 203, 0.7));">
+            </div>
+        </main>
+
+        <section class="py-16 px-4 bg-pink-50/70 home-text">
+            <div class="max-w-7xl mx-auto text-center">
+                <h3 class="text-4xl font-bold mb-10 text-pink-700">Your Personalized Beauty Journey</h3>
+                <div class="grid md:grid-cols-3 gap-10">
+                    <div class="p-8 rounded-xl shadow-xl bg-white/60 backdrop-blur-sm hover:shadow-2xl transition">
+                        <i class="fas fa-magic text-5xl text-pink-500 mb-4"></i>
+                        <h4 class="text-xl font-semibold mb-3 text-pink-800">1. Discover Your Look</h4>
+                        <p class="text-gray-600">Upload a photo and our AI instantly analyzes your features to suggest perfect makeup styles.</p>
+                    </div>
+
+                    <div class="p-8 rounded-xl shadow-xl bg-white/60 backdrop-blur-sm hover:shadow-2xl transition">
+                        <i class="fas fa-palette text-5xl text-pink-500 mb-4"></i>
+                        <h4 class="text-xl font-semibold mb-3 text-pink-800">2. Connect with Artists</h4>
+                        <p class="text-gray-600">Browse a curated list of top-rated makeup artists specializing in your style.</p>
+                    </div>
+
+                    <div class="p-8 rounded-xl shadow-xl bg-white/60 backdrop-blur-sm hover:shadow-2xl transition">
+                        <i class="fas fa-shopping-bag text-5xl text-pink-500 mb-4"></i>
+                        <h4 class="text-xl font-semibold mb-3 text-pink-800">3. Perfect Your Kit</h4>
+                        <p class="text-gray-600">Get personalized product recommendations for your skin type and tone.</p>
+                    </div>
+                </div>
+
+                <div class="mt-12">
+                    <a href="analyzer.html" class="inline-block px-10 py-4 text-xl rounded-full font-semibold bg-gradient-to-r from-pink-600 to-red-700 text-white shadow-2xl hover:scale-[1.05] transition duration-300">
+                        Start Your AI Analysis
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-20 px-4 bg-white/80">
+            <div class="max-w-7xl mx-auto">
+                <h3 class="text-5xl font-extrabold text-center mb-4 text-pink-900">Featured Artists</h3>
+                <p class="text-center text-xl text-pink-700 mb-16">Meet the industry's elite — matched to your unique beauty needs.</p>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
+                    <div class="p-6 rounded-2xl shadow-xl bg-white/40 backdrop-blur-md border border-white/30 hover:shadow-2xl transition">
+                        <img src="https://placehold.co/300x200/fce4ec/880e4f?text=Artist+Photo+1" class="w-full h-48 object-cover rounded-lg mb-4" alt="Artist 1">
+                        <h4 class="text-2xl font-bold text-pink-900 mb-1">Aisha Khan</h4>
+                        <p class="text-pink-600 font-medium mb-3">Specialty: Indian Bridal & Glam</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-yellow-500 font-semibold"><i class="fas fa-star"></i> 4.9 (120 reviews)</span>
+                            <button class="bg-pink-500 text-white px-4 py-2 rounded-full text-sm hover:bg-pink-600 transition">View Profile</button>
+                        </div>
+                    </div>
+
+                    <div class="p-6 rounded-2xl shadow-xl bg-white/40 backdrop-blur-md border border-white/30 hover:shadow-2xl transition">
+                        <img src="https://placehold.co/300x200/f8bbd0/880e4f?text=Artist+Photo+2" class="w-full h-48 object-cover rounded-lg mb-4" alt="Artist 2">
+                        <h4 class="text-2xl font-bold text-pink-900 mb-1">Chloe Davis</h4>
+                        <p class="text-pink-600 font-medium mb-3">Specialty: Natural & Editorial</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-yellow-500 font-semibold"><i class="fas fa-star"></i> 4.7 (85 reviews)</span>
+                            <button class="bg-pink-500 text-white px-4 py-2 rounded-full text-sm hover:bg-pink-600 transition">View Profile</button>
+                        </div>
+                    </div>
+
+                    <div class="p-6 rounded-2xl shadow-xl bg-white/40 backdrop-blur-md border border-white/30 hover:shadow-2xl transition">
+                        <img src="https://placehold.co/300x200/f48fb1/880e4f?text=Artist+Photo+3" class="w-full h-48 object-cover rounded-lg mb-4" alt="Artist 3">
+                        <h4 class="text-2xl font-bold text-pink-900 mb-1">Maria Lopez</h4>
+                        <p class="text-pink-600 font-medium mb-3">Specialty: Classic Bridal & Party</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-yellow-500 font-semibold"><i class="fas fa-star"></i> 5.0 (210 reviews)</span>
+                            <button class="bg-pink-500 text-white px-4 py-2 rounded-full text-sm hover:bg-pink-600 transition">View Profile</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-16">
+                    <button class="px-8 py-3 rounded-full text-lg font-semibold border-2 border-pink-700 text-pink-700 hover:bg-pink-100 transition shadow-lg">
+                        Browse All Artists
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const productsContainer = document.getElementById('products-menu-container');
+            const megaMenu = document.getElementById('mega-menu');
+            
+            // Function to show the menu
+            const showMenu = () => {
+                megaMenu.classList.remove('hidden');
+            };
+
+            // Function to hide the menu
+            const hideMenu = () => {
+                // We use a small delay to allow the mouse to move into the menu without it disappearing
+                setTimeout(() => {
+                    // Check if the mouse is still inside the container before hiding
+                    if (!productsContainer.matches(':hover')) {
+                        megaMenu.classList.add('hidden');
+                    }
+                }, 100); 
+            };
+
+            // Event listeners to handle hover in and out
+            productsContainer.addEventListener('mouseenter', showMenu);
+            productsContainer.addEventListener('mouseleave', hideMenu);
+        });
+    </script>
+
+</body>
+</html>

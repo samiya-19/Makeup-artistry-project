@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Makeup Style Predictor 💄</title>
+    
+    <!-- Load TensorFlow.js from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+        body {
+            font-family: "Poppins", sans-serif;
+            background: linear-gradient(135deg, #ffe5ec, #f9d6ea, #fce1f2);
+            margin: 0;
+            padding: 30px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .home-btn {
+            padding: 8px 16px;
+            background-color: #f0f0f0;
+            color: #d16ba5;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+
+        .home-btn:hover {
+            background-color: #e0e0e0;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        h1 {
+            text-align: center;
+            color: #d16ba5;
+            margin-bottom: 20px;
+            font-size: 2.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        h1::before {
+            content: '💋';
+            margin-right: 10px;
+            font-size: 1.5em;
+        }
+
+        h2 {
+            color: #880e4f;
+            margin-top: 30px;
+            border-bottom: 2px solid #ffe5ec;
+            padding-bottom: 5px;
+        }
+
+        label {
+            display: block;
+            margin-top: 20px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        select,
+        input[type="file"],
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #d16ba5;
+            color: white;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+
+        button:hover {
+            background-color: #b24a83;
+            transform: translateY(-1px);
+        }
+
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .image-preview {
+            margin-top: 20px;
+            text-align: center;
+            min-height: 250px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .image-preview img {
+            max-width: 100%;
+            max-height: 250px;
+            height: auto;
+            border-radius: 10px;
+            border: 3px solid #f9d6ea;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            display: none; /* Initially hidden */
+        }
+
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 1.2em;
+            text-align: center;
+            color: #333;
+            background-color: #f7f7f7;
+            border-radius: 8px;
+        }
+
+        #productsList {
+            list-style: none;
+            padding: 0;
+        }
+
+        #productsList li {
+            background: #ffe6f2;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            line-height: 1.4;
+        }
+
+        #productsList b {
+            color: #880e4f;
+        }
+
+        #productsList a {
+            color: #d16ba5;
+            text-decoration: none;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        #productsList a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation Link -->
+    <div class="header">
+        <h1 class="text-3xl font-bold" style="color: #d16ba5;">Makeup Style Predictor</h1>
+        <a href="home.html" class="home-btn">← Home</a>
+    </div>
+
+    <div class="container">
+        <!-- Model Selector -->
+        <label for="modelSelect">Choose Model:</label>
+        <select id="modelSelect">
+            <option value="model/model.json">Old Makeup Detector (Binary)</option>
+            <option value="model_new/model.json" selected>New Makeup Classifier (Multi-class)</option>
+        </select>
+
+        <!-- Image Upload -->
+        <input type="file" id="imageUpload" accept="image/*" />
+
+        <!-- Image Preview -->
+        <div class="image-preview">
+            <img id="preview" alt="Image Preview" />
+        </div>
+
+        <!-- Predict Button -->
+        <button id="predictBtn">Predict Style</button>
+
+        <!-- Prediction Result -->
+        <p id="result">Prediction will appear here...</p>
+
+        <!-- Recommended Products -->
+        <div id="productsSection" style="display: none;">
+            <h2>Recommended Products</h2>
+            <ul id="productsList"></ul>
+        </div>
+    </div>
+
+    <script type="module">
+        let model = null; // We will use a mock model since we can't load local files
+        let products = [];
+        const resultText = document.getElementById('result');
+        const predictBtn = document.getElementById('predictBtn');
+        const modelSelect = document.getElementById('modelSelect');
+        const previewImg = document.getElementById('preview');
+        const imageUpload = document.getElementById('imageUpload');
+        const productsSection = document.getElementById('productsSection');
+        const productsList = document.getElementById('productsList');
+
+        const classNames = [
+            'Indian Bridal Makeup',
+            'Bridal Makeup',
+            'Glam Makeup',
+            'Natural Makeup',
+            'Party Makeup'
+        ];
+
+        // --- Mock Data for Product Recommendations ---
+        // Since we cannot load products.json, we embed the mock data directly.
+        const MOCK_PRODUCTS = [
+            { name: "Matte Foundation", brand: "Fenty Beauty", type: "Base", shade: "420", skinType: "Oily", style: "Glam Makeup", link: "#" },
+            { name: "Hydrating Primer", brand: "Too Faced", type: "Base", shade: "N/A", skinType: "Dry", style: "Natural Makeup", link: "#" },
+            { name: "Kajal Eyeliner", brand: "Lakme", type: "Eyes", shade: "Black", skinType: "Oily", style: "Indian Bridal Makeup", link: "#" },
+            { name: "Cream Blush", brand: "Rare Beauty", type: "Cheeks", shade: "Happy", skinType: "Dry", style: "Natural Makeup", link: "#" },
+            { name: "Red Liquid Lipstick", brand: "MAC", type: "Lips", shade: "Ruby Woo", skinType: "Oily", style: "Party Makeup", link: "#" },
+            { name: "Soft Contour Palette", brand: "Anastasia", type: "Face", shade: "Light", skinType: "Dry", style: "Bridal Makeup", link: "#" },
+            { name: "Setting Spray", brand: "Urban Decay", type: "Finish", shade: "All Nighter", skinType: "Oily", style: "Glam Makeup", link: "#" },
+            // Add a product for Dry skin and Glam Makeup
+            { name: "Dewy Foundation", brand: "Dior", type: "Base", shade: "3W", skinType: "Dry", style: "Glam Makeup", link: "#" },
+        ];
+        products = MOCK_PRODUCTS;
+        console.log("✅ Mock Products loaded:", products.length);
+        
+        // --- Mock Function to load selected AI model ---
+        // We cannot load local model files (model/model.json) in this environment, 
+        // so we must create a MOCK model object to prevent runtime errors.
+        async function loadModel(modelPath) {
+            resultText.textContent = '⏳ Preparing mock model environment...';
+            predictBtn.disabled = true;
+            
+            // Simulate model loading delay
+            await new Promise(resolve => setTimeout(resolve, 1000)); 
+
+            // --- IMPORTANT: Mocking the model ---
+            // TensorFlow model loading requires local files ('model/model.json'), 
+            // which are unavailable. We set a flag to simulate a loaded model.
+            model = { isLoaded: true };
+
+            if (model.isLoaded) {
+                resultText.textContent = '✅ Mock Model initialized. Upload an image and click Predict.';
+                predictBtn.disabled = false;
+                console.log("Model initialization simulated for path:", modelPath);
+            } else {
+                resultText.textContent = '❌ Failed to initialize model (Simulated error).';
+                console.error("Model initialization failed.");
+            }
+        }
+
+        // The image preprocessing function is retained but will only create a placeholder tensor
+        function preprocessImage(image) {
+             // For the mock function, we just create a dummy tensor of the correct shape (224, 224, 3)
+             // In a real TF environment, this would process the actual image pixels.
+            return tf.zeros([1, 224, 224, 3]);
+        }
+        
+        // Handle image upload
+        imageUpload.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (!file) {
+                 previewImg.style.display = 'none';
+                 return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                previewImg.src = e.target.result;
+                previewImg.style.display = 'block';
+                resultText.textContent = 'Image uploaded. Click Predict Style.';
+            };
+            reader.readAsDataURL(file);
+        });
+
+        // Handle model change (reloads the mock model)
+        modelSelect.addEventListener('change', () => {
+            resultText.textContent = '';
+            previewImg.src = '';
+            previewImg.style.display = 'none';
+            productsSection.style.display = 'none';
+            loadModel(modelSelect.value);
+        });
+
+        // Predict makeup style (MOCK PREDICTION)
+        predictBtn.addEventListener('click', async () => {
+            if (!model || !model.isLoaded) {
+                resultText.textContent = '⚠️ Model not initialized yet. Wait a moment.';
+                return;
+            }
+            if (!previewImg.src || previewImg.style.display === 'none') {
+                resultText.textContent = '⚠️ Please upload an image first.';
+                return;
+            }
+            
+            resultText.textContent = '... Analyzing image (mocking prediction) ...';
+            predictBtn.disabled = true;
+            
+            // Simulate prediction time
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            
+            // MOCK prediction logic: The actual model execution (model.executeAsync) is replaced
+            // with a simulated result based on the currently selected model type.
+            
+            let predictionResultText = '';
+            
+            if (modelSelect.value === 'model/model.json') {
+                // Binary (Old) Model Mock
+                const isMakeup = Math.random() > 0.5; // Randomly decide
+                predictionResultText = isMakeup ? "💄 Makeup Detected" : "🙂 No Makeup Detected";
+                productsSection.style.display = 'none';
+                
+            } else {
+                // Multi-class (New) Model Mock
+                // Simulate a prediction by picking a random style
+                const randomIndex = Math.floor(Math.random() * classNames.length);
+                const predictedStyle = classNames[randomIndex];
+                
+                predictionResultText = `🎨 Predicted Style: ${predictedStyle}`;
+
+                // --- Product Recommendation Logic ---
+                
+                // Use a custom modal/input instead of the browser's 'prompt'
+                const skinTypeModal = document.createElement('div');
+                skinTypeModal.innerHTML = `
+                    <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: flex; justify-content: center; align-items: center;">
+                        <div style="background: white; padding: 30px; border-radius: 10px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.3);">
+                            <p>For personalized recommendations, what is your skin type (Oily/Dry)?</p>
+                            <input type="text" id="skinTypeInput" placeholder="e.g., Oily or Dry" style="margin: 15px 0; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
+                            <button id="submitSkinType" style="width: auto; padding: 10px 20px; background-color: #d16ba5; color: white;">Submit</button>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(skinTypeModal);
+                
+                document.getElementById('submitSkinType').addEventListener('click', () => {
+                    let skinType = document.getElementById('skinTypeInput').value.trim();
+                    skinTypeModal.remove(); 
+                    
+                    resultText.textContent = predictionResultText;
+
+                    if (skinType) {
+                        const recommended = products.filter(p => 
+                            p.style === predictedStyle && p.skinType.toLowerCase() === skinType.toLowerCase()
+                        );
+
+                        productsSection.style.display = 'block';
+                        productsList.innerHTML = '';
+
+                        if (recommended.length > 0) {
+                            recommended.forEach(item => {
+                                const li = document.createElement('li');
+                                li.innerHTML = `<b>${item.name}</b> (${item.brand}) - ${item.type}, Shade: ${item.shade} 
+                                                <a href="${item.link}" target="_blank">Buy</a>`;
+                                productsList.appendChild(li);
+                            });
+                        } else {
+                            productsList.innerHTML = `<li>⚠️ No matching products found for ${predictedStyle} and ${skinType} skin type.</li>`;
+                        }
+                    } else {
+                        productsSection.style.display = 'none';
+                        resultText.textContent += " (Recommendations skipped: No skin type provided)";
+                    }
+                    predictBtn.disabled = false;
+                });
+                return; // Exit here as the rest of the logic is handled by the modal submit
+            }
+
+            // For the Binary Model Mock (if it hits this point)
+            resultText.textContent = predictionResultText;
+            predictBtn.disabled = false;
+        });
+
+        // Load default model on startup
+        window.addEventListener('DOMContentLoaded', () => {
+            loadModel(modelSelect.value);
+        });
+    </script>
+</body>
+</html>
